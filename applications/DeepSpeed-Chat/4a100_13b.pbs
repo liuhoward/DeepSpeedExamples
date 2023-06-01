@@ -1,0 +1,40 @@
+#!/bin/bash
+
+
+#PBS -N test13B
+#PBS -P xl44
+#PBS -q dgxa100
+
+#PBS -l ncpus=64
+#PBS -l mem=800GB
+#PBS -l ngpus=4
+#PBS -l jobfs=10GB
+
+#PBS -l walltime=48:0:0
+#PBS -l storage=scratch/xl44
+#PBS -l wd
+
+
+date
+echo $(hostname -s)
+
+echo -e "
+ipdb help:
+set_trace(),breakpoint()
+n: next
+s: step into
+b <lineno> [,condition]: breakpoint at lineno
+disable num: disable breakpoint num
+c: continue to next breakpoint
+r: return back
+exit: finish
+
+pytorch:
+x.data.cpu().numpy()
+"
+
+source ~/.bashrc
+module load singularity
+
+
+singularity exec --nv ~/gpt4/dev202305.sif python train.py --actor-model facebook/opt-13b --reward-model facebook/opt-350m --deployment-type single_node
