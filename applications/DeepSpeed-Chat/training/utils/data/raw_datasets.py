@@ -15,7 +15,8 @@ class PromptRawDataset(object):
         self.output_path = output_path
         self.seed = seed
         self.local_rank = local_rank
-        self.raw_datasets = load_dataset(dataset_name)
+        if not ("Dahoas/rm-static" == dataset_name or "Dahoas/full-hh-rlhf" == dataset_name or "Dahoas/synthetic-instruct-gptj-pairwise" == dataset_name or "yitingxie/rlhf-reward-datasets" == dataset_name):
+            self.raw_datasets = load_dataset(dataset_name)
 
     def get_train_data(self):
         return
@@ -50,6 +51,8 @@ class DahoasRmstaticDataset(PromptRawDataset):
         super().__init__(output_path, seed, local_rank, dataset_name)
         self.dataset_name = "Dahoas/rm-static"
         self.dataset_name_clean = "Dahoas_rm_static"
+        data_files = {"train":"train-00000-of-00001-2a1df75c6bce91ab.parquet","test":"test-00000-of-00001-8c7c51afc6d45980.parquet"}
+        self.raw_datasets = load_dataset("parquet", data_dir='/home/582/hl3290/gpt4/datasets/rm-static/data', data_files=data_files)
 
     def get_train_data(self):
         return self.raw_datasets["train"]
@@ -80,6 +83,8 @@ class DahoasFullhhrlhfDataset(PromptRawDataset):
         super().__init__(output_path, seed, local_rank, dataset_name)
         self.dataset_name = "Dahoas/full-hh-rlhf"
         self.dataset_name_clean = "Dahoas_full_hh_rlhf"
+        data_files = {"train":"train-00000-of-00001-8349d0765e6718df.parquet","test":"test-00000-of-00001-ec71e9262143a91c.parquet"}
+        self.raw_datasets = load_dataset("parquet", data_dir='/home/582/hl3290/gpt4/datasets/full-hh-rlhf/data', data_files=data_files)
 
     def get_train_data(self):
         return self.raw_datasets["train"]
@@ -110,6 +115,8 @@ class DahoasSyntheticinstructgptjpairwiseDataset(PromptRawDataset):
         super().__init__(output_path, seed, local_rank, dataset_name)
         self.dataset_name = "Dahoas/synthetic-instruct-gptj-pairwise"
         self.dataset_name_clean = "Dahoas_synthetic_instruct_gptj_pairwise"
+        data_files = {"train":"train-00000-of-00001-1e5d57b93c448e7a.parquet"}
+        self.raw_datasets =  load_dataset("parquet", data_dir='/home/582/hl3290/gpt4/datasets/synthetic-instruct-gptj-pairwise/data', data_files=data_files)
 
     def get_train_data(self):
         from .data_utils import get_raw_dataset_split_index
@@ -155,6 +162,8 @@ class YitingxieRlhfrewarddatasetsDataset(PromptRawDataset):
         super().__init__(output_path, seed, local_rank, dataset_name)
         self.dataset_name = "yitingxie/rlhf-reward-datasets"
         self.dataset_name_clean = "yitingxie_rlhf_reward_datasets"
+        data_files = {"train":"train-00000-of-00001-2ea3039ca4da89f8.parquet","test":"test-00000-of-00001-955c146ec7a10a1e.parquet"}
+        self.raw_datasets = load_dataset("parquet", data_dir='/home/582/hl3290/gpt4/datasets/rlhf-reward-datasets/data', data_files=data_files)
 
     def get_train_data(self):
         return self.raw_datasets["train"]

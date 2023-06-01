@@ -16,7 +16,7 @@ mkdir -p $OUTPUT
 deepspeed main.py \
    --data_path Dahoas/rm-static Dahoas/full-hh-rlhf Dahoas/synthetic-instruct-gptj-pairwise yitingxie/rlhf-reward-datasets \
    --data_split 2,4,4 \
-   --model_name_or_path facebook/opt-13b \
+   --model_name_or_path /home/582/hl3290/gpt4/models/opt-13b \
    --per_device_train_batch_size 4 \
    --per_device_eval_batch_size 4 \
    --max_seq_len 512 \
